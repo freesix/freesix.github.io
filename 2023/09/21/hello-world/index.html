@@ -77,7 +77,119 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css">
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hexo-math@4.0.0/dist/style.css">
-<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"></head>
+<!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.3.0"><style>mjx-container[jax="SVG"] {
+  direction: ltr;
+}
+
+mjx-container[jax="SVG"] > svg {
+  overflow: visible;
+}
+
+mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="SVG"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="SVG"][justify="right"] {
+  text-align: right;
+}
+
+g[data-mml-node="merror"] > g {
+  fill: red;
+  stroke: red;
+}
+
+g[data-mml-node="merror"] > rect[data-background] {
+  fill: yellow;
+  stroke: none;
+}
+
+g[data-mml-node="mtable"] > line[data-line] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > rect[data-frame] {
+  stroke-width: 70px;
+  fill: none;
+}
+
+g[data-mml-node="mtable"] > .mjx-dashed {
+  stroke-dasharray: 140;
+}
+
+g[data-mml-node="mtable"] > .mjx-dotted {
+  stroke-linecap: round;
+  stroke-dasharray: 0,140;
+}
+
+g[data-mml-node="mtable"] > svg {
+  overflow: visible;
+}
+
+[jax="SVG"] mjx-tool {
+  display: inline-block;
+  position: relative;
+  width: 0;
+  height: 0;
+}
+
+[jax="SVG"] mjx-tool > mjx-tip {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+mjx-tool > mjx-tip {
+  display: inline-block;
+  padding: .2em;
+  border: 1px solid #888;
+  font-size: 70%;
+  background-color: #F8F8F8;
+  color: black;
+  box-shadow: 2px 2px 5px #AAAAAA;
+}
+
+g[data-mml-node="maction"][data-toggle] {
+  cursor: pointer;
+}
+
+mjx-status {
+  display: block;
+  position: fixed;
+  left: 1em;
+  bottom: 1em;
+  min-width: 25%;
+  padding: .2em .4em;
+  border: 1px solid #888;
+  font-size: 90%;
+  background-color: #F8F8F8;
+  color: black;
+}
+
+foreignObject[data-mjx-xml] {
+  font-family: initial;
+  line-height: normal;
+  overflow: visible;
+}
+
+.MathJax path {
+  stroke-width: 3;
+}
+
+mjx-container[display="true"] {
+  overflow: auto hidden;
+}
+
+mjx-container[display="true"] + br {
+  display: none;
+}
+</style></head>
 
   
   <!-- 预加载动画 -->
@@ -425,15 +537,24 @@
       
 
       
+        <span class="post-detail-header_categories">
+          <i class="iconfont iconbookmark1"></i> 分类：
+          
+            <a href="/categories/%E8%AE%BA%E6%96%87%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/" class="post-detail-header_category">
+              论文阅读笔记
+            </a>
+          
+        </span>
+      
 
       
         <div class="post-detail-header_wordcount">
           <span class="totalcount">
-            <i class="fas fa-file-text-o"></i> 字数统计: 18 |
+            <i class="fas fa-file-text-o"></i> 字数统计: 615 |
           </span>
   
           <span class="min2read">
-            <i class="fas fa-clock"></i> 阅读时长: 1分钟 |
+            <i class="fas fa-clock"></i> 阅读时长: 2分钟 |
           </span>
   
           
@@ -461,6 +582,15 @@
     <article class="post post-detail">
       <div class="post-content">
         <p>关于Point-LIO: Robust High-Bandwidth Light Detection and Ranging Inertial Odometry的阅读随笔</p>
+<h1 id="介绍">介绍</h1>
+这篇文章介绍了一种名为Point-LIO的鲁棒高带宽激光雷达惯性测距（LiDAR）系统。该系统通过使用一种 点云式的LiDAR惯性测距框架，在实际采样时间上融合LiDAR点云，而不是将它们累积到帧中。这消除了 运动畸变，实现了高速率的测距输出和地图更新。此外，该系统使用了一种随机过程增强的运动模型来建模 IMU测量，即使IMU饱和也能平滑估计系统状态。文章还讨论了Point-LIO的状态估计和地图结果。简单点 来说处理点云过程中不以帧为单位，而是以雷达点顺序为单位，因为在一帧过程中雷达本体是在运动的， 会产生运动畸变，并且限制里程计的带宽，降低系统增益。
+<ol type="1">
+<li><p>点对点的LIO框架：Point-LIO在每个LiDAR点测量时更新状态，而不是将点累积到帧中。这种方法消除了帧内运动畸变的影响，使得输出的里程计具有高频率，增加了里程计的带宽，并能够跟踪快速运动。</p></li>
+<li><p>随机过程增强的运动模型：Point-LIO使用随机过程模型来建模IMU测量，并将其融合到系统的运动模型中。这种增强的运动模型允许平滑估计系统状态，包括角速度和线性加速度，即使IMU饱和也能保持较好的估计精度。</p></li>
+<li><p>高精度的地图生成：Point-LIO通过对墙面上的点进行一致性分析，比较了FAST-LIO2、Point-LIO-input和Point-LIO的地图生成精度。结果显示，Point-LIO能够产生比FAST-LIO2更精细的墙面地图，消除了帧内运动畸变的影响。</p></li>
+<li><p>抗振动能力：Point-LIO在实验中面临强烈的振动挑战，但通过点对点的更新方式和随机过程增强的运动模型，能够有效减轻振动对传感器的影响，提高系统的稳定性和鲁棒性。</p></li>
+</ol>
+<p>总之，Point-LIO通过创新的点对点更新方式和随机过程增强的运动模型，实现了高精度、高带宽的LiDAR惯性里程计，具有较好的抗振动能力和地图生成精度。</p>
 
       </div>
       <div class="post-tags-categories">
@@ -744,7 +874,7 @@
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!--  -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
@@ -944,6 +1074,59 @@
 		height: 100%;
 	}
 </style>
+
+
+  <script>
+  // https://github.com/theme-next/hexo-theme-next/blob/master/layout/_third-party/math/mathjax.swig
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    // 文章章节标题不能为 “MathJax” ，否则会报错。
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
 
 
 
