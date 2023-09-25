@@ -550,7 +550,7 @@ mjx-container[display="true"] + br {
       
         <div class="post-detail-header_wordcount">
           <span class="totalcount">
-            <i class="fas fa-file-text-o"></i> 字数统计: 627 |
+            <i class="fas fa-file-text-o"></i> 字数统计: 707 |
           </span>
   
           <span class="min2read">
@@ -583,15 +583,19 @@ mjx-container[display="true"] + br {
       <div class="post-content">
         <p>关于Point-LIO: Robust High-Bandwidth Light Detection and Ranging Inertial Odometry的阅读随笔</p>
 <h1 id="介绍">介绍</h1>
-<p>这篇文章介绍了一种名为Point-LIO的鲁棒高带宽激光雷达惯性测距（LiDAR）系统。该系统通过使用一种 点云式的LiDAR惯性测距框架，在实际采样时间上融合LiDAR点云，而不是将它们累积到帧中。这消除了 运动畸变，实现了高速率的测距输出和地图更新。此外，该系统使用了一种随机过程增强的运动模型来建模 IMU测量，即使IMU饱和也能平滑估计系统状态。文章还讨论了Point-LIO的状态估计和地图结果。简单点 来说处理点云过程中不以帧为单位，而是以雷达点顺序为单位，因为在一帧过程中雷达本体是在运动的， 会产生运动畸变，并且限制里程计的带宽，降低系统增益。 ## 贡献 1. 点对点的LIO框架：Point-LIO在每个LiDAR点测量时更新状态，而不是将点累积到帧中。这种方法消除了帧内运动畸变的影响，使得输出的里程计具有高频率，增加了里程计的带宽，并能够跟踪快速运动。</p>
+<p>这篇文章介绍了一种名为Point-LIO的鲁棒高带宽激光雷达惯性测距（LiDAR）系统。该系统通过使用一种 点云式的LiDAR惯性测距框架，在实际采样时间上融合LiDAR点云，而不是将它们累积到帧中。这消除了 运动畸变，实现了高速率的测距输出和地图更新。此外，该系统使用了一种随机过程增强的运动模型来建模 IMU测量，即使IMU饱和也能平滑估计系统状态。文章还讨论了Point-LIO的状态估计和地图结果。简单点 来说处理点云过程中不以帧为单位，而是以雷达点顺序为单位，因为在一帧过程中雷达本体是在运动的， 会产生运动畸变，并且限制里程计的带宽，降低系统增益。 ## 贡献 1. 点对点的LIO框架：Point-LIO在每个LiDAR点测量时更新状态，而不是将点累积到帧中。这种方法消 除了帧内运动畸变的影响，使得输出的里程计具有高频率，增加了里程计的带宽，并能够跟踪快速运动。</p>
 <ol start="2" type="1">
-<li><p>随机过程增强的运动模型：Point-LIO使用随机过程模型来建模IMU测量，并将其融合到系统的运动模型中。这种增强的运动模型允许平滑估计系统状态，包括角速度和线性加速度，即使IMU饱和也能保持较好的估计精度。</p></li>
-<li><p>高精度的地图生成：Point-LIO通过对墙面上的点进行一致性分析，比较了FAST-LIO2、Point-LIO-input和Point-LIO的地图生成精度。结果显示，Point-LIO能够产生比FAST-LIO2更精细的墙面地图，消除了帧内运动畸变的影响。</p></li>
-<li><p>抗振动能力：Point-LIO在实验中面临强烈的振动挑战，但通过点对点的更新方式和随机过程增强的运动模型，能够有效减轻振动对传感器的影响，提高系统的稳定性和鲁棒性。</p></li>
+<li><p>随机过程增强的运动模型：Point-LIO使用随机过程模型来建模IMU测量，并将其融合到系统的运动模 型中。这种增强的运动模型允许平滑估计系统状态，包括角速度和线性加速度，即使IMU饱和也能保持较好 的估计精度。</p></li>
+<li><p>高精度的地图生成：Point-LIO通过对墙面上的点进行一致性分析，比较了FAST-LIO2、 Point-LIO-input和Point-LIO的地图生成精度。结果显示，Point-LIO能够产生比FAST-LIO2更精细 的墙面地图，消除了帧内运动畸变的影响。</p></li>
+<li><p>抗振动能力：Point-LIO在实验中面临强烈的振动挑战，但通过点对点的更新方式和随机过程增强的运 动模型，能够有效减轻振动对传感器的影响，提高系统的稳定性和鲁棒性。</p></li>
 </ol>
-<p>总之，Point-LIO通过创新的点对点更新方式和随机过程增强的运动模型，实现了高精度、高带宽的LiDAR惯性里程计，具有较好的抗振动能力和地图生成精度。</p>
+<p>总之，Point-LIO通过创新的点对点更新方式和随机过程增强的运动模型，实现了高精度、高带宽的LiDAR 惯性里程计，具有较好的抗振动能力和地图生成精度。</p>
 <h1 id="框架">框架</h1>
-<p><img src="/2023/09/21/Point-LIO/Point-LIO框架图.png" class="lazyload placeholder" data-srcset="/2023/09/21/Point-LIO/Point-LIO框架图.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Point-LIO框架图"> 这是一个框架图</p>
+<p>系统设计的两个策略：</p>
+<ol type="1">
+<li><p>激光雷达点是在各自的时间顺序采样，不是在帧内等间隔采样</p></li>
+<li><p>IMU数据是系统的测量值，不是输入值，一旦接受到测量值(雷达点或者IMU数据)，就在流形EKF上融合 这两个测量值。 <img src="/2023/09/21/Point-LIO/Point-LIO框架图.png" class="lazyload placeholder" data-srcset="/2023/09/21/Point-LIO/Point-LIO框架图.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Point-LIO框架图"> 这是一个框架图</p></li>
+</ol>
 
       </div>
       <div class="post-tags-categories">
@@ -609,7 +613,7 @@ mjx-container[display="true"] + br {
         <div class="copyright">
   <ul class="post-copyright">
     <li class="post-copyright-author">
-    <strong>作者:  </strong>John Doe</a>
+    <strong>作者:  </strong>freesix</a>
     </li>
     <li class="post-copyright-link">
     <strong>文章链接:  </strong>
