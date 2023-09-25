@@ -550,11 +550,11 @@ mjx-container[display="true"] + br {
       
         <div class="post-detail-header_wordcount">
           <span class="totalcount">
-            <i class="fas fa-file-text-o"></i> 字数统计: 706 |
+            <i class="fas fa-file-text-o"></i> 字数统计: 1.2k |
           </span>
   
           <span class="min2read">
-            <i class="fas fa-clock"></i> 阅读时长: 2分钟 |
+            <i class="fas fa-clock"></i> 阅读时长: 4分钟 |
           </span>
   
           
@@ -582,9 +582,9 @@ mjx-container[display="true"] + br {
     <article class="post post-detail">
       <div class="post-content">
         <p>关于Point-LIO: Robust High-Bandwidth Light Detection and Ranging Inertial Odometry的阅读随笔</p>
-<h1 id="介绍">介绍</h1>
+<h2 id="介绍">介绍</h2>
 <p>这篇文章介绍了一种名为Point-LIO的鲁棒高带宽激光雷达惯性测距（LiDAR）系统。该系统通过使用一种 点云式的LiDAR惯性测距框架，在实际采样时间上融合LiDAR点云，而不是将它们累积到帧中。这消除了 运动畸变，实现了高速率的测距输出和地图更新。此外，该系统使用了一种随机过程增强的运动模型来建模 IMU测量，即使IMU饱和也能平滑估计系统状态。文章还讨论了Point-LIO的状态估计和地图结果。简单点 来说处理点云过程中不以帧为单位，而是以雷达点顺序为单位，因为在一帧过程中雷达本体是在运动的， 会产生运动畸变，并且限制里程计的带宽，降低系统增益。</p>
-<h2 id="贡献">贡献</h2>
+<h3 id="贡献">贡献</h3>
 <ol type="1">
 <li><p>点对点的LIO框架：Point-LIO在每个LiDAR点测量时更新状态，而不是将点累积到帧中。这种方法消 除了帧内运动畸变的影响，使得输出的里程计具有高频率，增加了里程计的带宽，并能够跟踪快速运动。</p></li>
 <li><p>随机过程增强的运动模型：Point-LIO使用随机过程模型来建模IMU测量，并将其融合到系统的运动模 型中。这种增强的运动模型允许平滑估计系统状态，包括角速度和线性加速度，即使IMU饱和也能保持较好 的估计精度。</p></li>
@@ -592,12 +592,17 @@ mjx-container[display="true"] + br {
 <li><p>抗振动能力：Point-LIO在实验中面临强烈的振动挑战，但通过点对点的更新方式和随机过程增强的运 动模型，能够有效减轻振动对传感器的影响，提高系统的稳定性和鲁棒性。</p></li>
 </ol>
 <p>总之，Point-LIO通过创新的点对点更新方式和随机过程增强的运动模型，实现了高精度、高带宽的LiDAR 惯性里程计，具有较好的抗振动能力和地图生成精度。</p>
-<h1 id="框架">框架</h1>
+<h2 id="框架">框架</h2>
 <p>系统设计的两个策略：</p>
 <ol type="1">
-<li><p>激光雷达点是在各自的时间顺序采样，不是在帧内等间隔采样</p></li>
-<li><p>IMU数据是系统的测量值，不是输入值，一旦接受到测量值(雷达点或者IMU数据)，就在流形EKF上融合 这两个测量值。 <img src="/2023/09/21/Point-LIO/Point-LIO框架图.png" class="lazyload placeholder" data-srcset="/2023/09/21/Point-LIO/Point-LIO框架图.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Point-LIO框架图"> 这是一个框架图</p></li>
+<li><p>激光雷达点是在各自的时间顺序采样，不是在帧内等间隔采样。</p></li>
+<li><p>IMU数据是系统的测量值，不是输入值，一旦接受到测量值(雷达点或者IMU数据)，就在流形EKF上融合 这两个测量值。</p></li>
 </ol>
+<p>对于运动失真的补偿一般是假设帧内是匀速运动来补偿，但在剧烈运动或变化剧烈的运动场景下会带来非常 大的漂移甚至是里程计的失效。另外一种比较流行的运动补偿方式是基于连续的时间轨迹优化，例如B样条 和高斯过程模型，然后这些方法非常耗时，很难在线运行，除此之外，这类方法还需要为轨迹估计积累足够 的点，这样增加了里程计的等待时间。</p>
+<p>一种有效运动失真补偿方法就是利用IMU的高频率测量来补偿激光点的运动失真。(采用预积分的方式)。本文 采用对单个激光点序列进行运动估计的方法，这样避免了运动失真补偿这一过程。</p>
+<p>松耦合是将IMU数据预积分后用这个估计作为初始位姿作为后续序列的配准。紧耦合是将IMU数据和激光雷达 数据作为联合优化输入。两种耦合方式都有基于EKF和优化的方法。但是在紧耦合框架中，IMU数据都被用 作运动学模型的输入，在机器人运动超出IMU测量范围的情况下，这种EKF传播或者预积分过程会遇到饱和 问题。将IMU数据作为模型输出的测量值可以很自然的解决这种由剧烈运动产生的饱和问题。</p>
+<p>如下框架图中顺序采样的LiDAR点和IMU数据都用于更新各自时间戳的状态，从而产生极高的里程计输出。 对于每个接收到的点从地图中搜索相应平面，一个残差用流形KF计算用来更新系统状态，最终优化的位姿 用于将雷达点匹配到地图中。如果这个点没有匹配的平面，直接通过KF后加入地图。为了在匹配新的点过程 中快速实现平面的搜索采用了增量kd数。</p>
+<p><img src="/2023/09/21/Point-LIO/Point-LIO框架图.png" class="lazyload placeholder" data-srcset="/2023/09/21/Point-LIO/Point-LIO框架图.png" srcset="https://pic1.zhimg.com/v2-cd38920285d125be80b3eb504052c550_b.webp" alt="Point-LIO框架图"> 这是一个框架图</p>
 
       </div>
       <div class="post-tags-categories">
@@ -881,7 +886,7 @@ mjx-container[display="true"] + br {
   <div class='content'>
     <div class="toc-main">
       <div class="toc-content">
-        <!-- <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-text">贡献</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6"><span class="toc-text">框架</span></a></li></ol> -->
+        <!-- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8B%E7%BB%8D"><span class="toc-text">介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B4%A1%E7%8C%AE"><span class="toc-text">贡献</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A1%86%E6%9E%B6"><span class="toc-text">框架</span></a></li></ol> -->
         <div class="toc"></div>
       </div>
     </div>
