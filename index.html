@@ -1193,7 +1193,7 @@ mjx-container[display="true"] + br {
         :data="listData"
         :class-option="classOption"
         class="warp"
-        style="height: 30px"
+        style="height: 60px"
       >
         <ul class="index-notice-content__ul">
           
@@ -1204,6 +1204,19 @@ mjx-container[display="true"] + br {
                   
                     <span title="#还在筹备中" style="color:red">
                       #还在筹备中
+                    </span>
+                  
+                </div>
+                
+              
+            </li>
+          
+            <li>
+              
+                <div class="index-notice-content__title">
+                  
+                    <span title="#渲染错误可能会导致一些文字还是为Markdown格式，不影响使用" style="color:red">
+                      #渲染错误可能会导致一些文字还是为Markdown格式，不影响使用
                     </span>
                   
                 </div>
@@ -1224,7 +1237,7 @@ mjx-container[display="true"] + br {
 <script>
   var seamless = JSON.parse('false');
   seamless = seamless ? 0 : 30;
-  var listData = '[object Object]' || '';
+  var listData = '[object Object],[object Object]' || '';
   listData = listData.split(',');
   var vm = new Vue({
     el: '#appIndexNotice',
@@ -1723,7 +1736,7 @@ mjx-container[display="true"] + br {
         <div class="webinfo-item">
           <div>最后活动时间：</div>
           
-            <div id="last-update" style="display: none;">Wed Oct 18 2023 16:55:51 GMT+0800 (China Standard Time)</div>
+            <div id="last-update" style="display: none;">Wed Oct 18 2023 22:20:07 GMT+0800 (China Standard Time)</div>
             <div id="last-update-show">2023-10-18 日</div>
           
         </div>
