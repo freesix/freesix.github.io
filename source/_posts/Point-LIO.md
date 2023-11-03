@@ -144,8 +144,10 @@ $$
 \end{array}\right]=\mathbf{h}_I\left(\mathbf{x}_k, \mathbf{n}_{I_k}\right)}
 \end{array}
 $$
+
 ## 扩展卡尔曼滤波
 一个紧耦合框架的扩展卡尔曼滤波
+
 ### 状态传播
 状态从$k$传播到下一个状态$k+1$并设置$\mathbf{w}=\mathbf{0}$
 $$\begin{equation}
@@ -262,7 +264,9 @@ $$
 _{k+1})
 $$
 这里的$\mathbf{r}_{k+1}$在后面指代LiDAR或者IMU。
+
 ### 状态更新
+
 在传播方程中的状态$\hat{\mathbf{x}}_{k+1}$和协方差$\hat{\mathbf{P}}_{k+1}$对未知状态
  $\mathbf{x}_{k+1}$为高斯分布：
  $$
