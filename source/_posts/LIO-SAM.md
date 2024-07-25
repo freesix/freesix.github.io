@@ -25,7 +25,7 @@ LIO-SAM: Tightly-coupled Lidar Inertial Odometry via Smoothing and Mapping论文
 集合上，从而实现实时性能。
 * 通过对各种规模、车辆和环境的测试，对提出的框架进行了广泛的验证。
 
-![LIO-SAM框架图](./LIO-SAM/LIO-SAM框架.pngjkj)
+![LIO-SAM框架图](./LIO-SAM/LIO-SAM框架.png)
 
 ## 方法
 
