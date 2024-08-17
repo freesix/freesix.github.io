@@ -73,10 +73,12 @@ $$
 描述子中加入了方向的描述。(Oriented FAST关键点和Streered BRIEF描述子)两部分。
 
 ORB特征选取策略：
+
 - 在图像中选取某个像素$p$，其灰度值为$I_{p}$。
 - 设定一个阈值$T$，以$p$为圆心，半径为3个像素的16个像素点上比大小。
 - 如果16个像素点上有连续$N$个灰度大于或小于$I_{p}+T$，则确定为关键点，在ORB-slam中$N=3$
 - 实际中为了加速，通常选取第1、5、9、13个像素点的灰度值来比较，有大于等于三个像素点满足条件
+
 则认为中心像素点为一个关键点。
 
 为了保证特征点的尺度不变性和计算方向，引入了图像金字塔和灰度质心法。简要记一下灰度质心法，计算
@@ -110,7 +112,9 @@ $$
 $$
 
 然后就可以将图像按照$\theta$旋转：
+
 ![旋转灰度质心园和主方向坐标轴对齐](./视觉slam知识点/ORB方向计算.png)
+
 ### 描述子 Steered BRIEF
 BRIEF是一种二进制编码的描述子，在ORB-SLAM2中它是一个256bit的向量。以下是计算方法：
 
@@ -123,7 +127,7 @@ $$
 - 在窗口中随机选取$N$，(在ORB-slam2中是256)对随机点，重复上面的步骤，得到一个256维的二进制
 描述子。
 
-对于选点，在ORB-slam2中采用固定的选点模板，是一个256$\times$4个值组成的数组，每行的4个值表
+对于选点，在ORB-slam2中采用固定的选点模板，是一个256x4个值组成的数组，每行的4个值表
 示一对点的坐标。
 
 而增加了旋转方向的Steered BRIEF描述子则是先将此区域旋转(或者通过下面的矩阵找到旋转前的点在
@@ -133,8 +137,9 @@ $$
 $$
 
 ### 特征点均匀化
+
 - 根据总的图像金字塔层级和待提取的特征点总数，计算图像金字塔中每个层级需要提取的特征点数量。
-- 划分格子(在ORB-slam2中固定尺寸为30像素$\times$30)
+- 划分格子(在ORB-slam2中固定尺寸为30像素x30)
 - 对每个格子提取角点，如果初始的FAST角点阈值没有检测到角点，则降低阈值，再提取一次，若还是没有
 角点，则不在这个格子提取。
 - 用四叉树均匀地选取角点。
@@ -289,6 +294,7 @@ $$
 $$
 
 由此就很好理解$\delta\dot{a}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}}$的推导了，对于$\delta \dot{b}_{a_t}$，$\delta \dot{b}_{\omega_t}$它们服从高斯分布，其微分很容易得到。
+
 - 然后就是推导$\delta\dot{\beta}_{\mathbf{t}}^{\mathbf{b_{k}}}$。
 $\dot{\beta}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}}$的理论值，即不考虑存在噪声$\mathrm{n}_a$和$\mathrm{n}_{b_a}$时为：$\mathrm{\dot{\beta}_t^{b_k}=R_t^{b_k}(\hat{a}_t-b_{a_t})}$。
 实际测量值，即考虑噪声时为：
@@ -449,6 +455,7 @@ $$
 **状态方程**：
 $$\tag{状态方程}x_k=F_kx_{k-1}+B_ku_k+w_k$$
 其中：
+
 - $F_k$是作用在$x_{k-1}$上的状态变换模型(作用在状态量上的)
 - $B_k$是作用在控制器上的输入控制模型(u_k表示k时刻的输入)
 - $w_k$是过程噪声，并假设符合均值为零，协方差矩阵为$Q_k$的多元正态分布。$w_k{\sim}N(0,Q_k)$
@@ -480,6 +487,7 @@ $$
 $\hat{X}_{k-1|k-1}$表示在时刻$k-1$的状态估计，$\hat{X}_{k|k-1}$表示已知$k-1$的状态估
 计，对$k$时刻的预测，$hat{X}_{k|k}$表示更新后$k$时刻的状态估计值。$\hat{P}_{k|k}$为后验
 估计误差协方差矩阵，度量估计值的精确程度。
+
 - 预测$\hat{X}_{k-1|k-1}\xrightarrow{Prediction}\hat{X}_{k|k-1}$
 
 预测步骤中，根据上一时刻的状态和输入的控制量，预测当前时刻的状态。这是一个估计值，没有考虑当前
@@ -516,6 +524,7 @@ $$
 对于上述公式的计算仅在最有卡尔曼增益的时候有效。
 
 ### 公式推导
+
 - 状态估计误差
 $$
 \tilde{x}_{k|k-1}=x_k-\hat{x}_{k|k-1}
@@ -536,10 +545,12 @@ $$
 $$
 
 那么根据上述方程可以定义两个重要的误差协方差矩阵(用于判别估计的精准性)：
+
 - 状态误差协方差矩阵
 $$
 \mathbf{P}_{k|k-1}=cov\{\tilde{x}_{k|k-1}\}
 $$
+
 - 观测误差协方差矩阵
 $$
 \mathbf{S}_K=cov\{\tilde{e}_k\}
@@ -645,9 +656,11 @@ $$
 这里对$(\tilde{\boldsymbol{\omega}}-\boldsymbol{b}_{gt}-\boldsymbol{\eta}_g)^\wedge$
 求导等于对一小角度旋转向量$\delta\theta$的指数映射求导，用到了李代数里面的知识点。
 
-该式子中的$\dot{\mathrm{Exp}(\delta\boldsymbol{\theta})}$满足：$\dot{\operatorname{Exp}
-(\delta\boldsymbol{\theta})}=\operatorname{Exp}(\delta\boldsymbol{\theta})
-\delta\dot{\boldsymbol{\theta}}^\wedge $，这里我理解为和前面的李代数求导知识点一样。
+该式子中的$\dot{\mathrm{Exp}(\delta\boldsymbol{\theta})}$满足：
+$$\dot{\mathrm{Exp}
+(\delta\boldsymbol{\theta})}=\mathrm{Exp}(\delta\boldsymbol{\theta})
+\delta\dot{\boldsymbol{\theta}}^\wedge$$
+这里我理解为和前面的李代数求导知识点一样。
 
 因此第一个式子可以写为：
 $$
@@ -689,6 +702,7 @@ $$
 $$
 \delta\dot{\boldsymbol{\theta}}\approx-(\tilde{\boldsymbol{\omega}}-\boldsymbol{b}_g)^\wedge\delta\boldsymbol{\theta}-\delta\boldsymbol{b}_g-\boldsymbol{\eta}_g
 $$
+
 - **误差状态的速度项**
 由前面已知速度真值的微分形式$\dot{\boldsymbol{v}}_{t}=\boldsymbol{R}_t
 (\tilde{\boldsymbol{a}}-\boldsymbol{b}_{at}-\boldsymbol{\eta}_a)+\boldsymbol{g}_t$
@@ -754,6 +768,7 @@ $$
 &\delta\dot{g} =0 
 \end{aligned}
 $$
+
 ### 离散时间下的ESKF运动学方程
 **名义状态变量的离散时间运动学方程为**：
 $$
@@ -814,6 +829,7 @@ $$
 
 **但是在计算过程中，在每次迭代过程中都需要计算$N$个权重，很困难(这是因为$P(z_{t}^{(i)}|x_{1:t}))$
 )不好求取，因此想到利用一个递推公式从前一时刻的权重得到当前时刻的权重。由此引出序列重要性采样。**
+
 ### 序列重要性采样
 序列重要性采样主要是为了找到$w_{t}^{(i)}$和$w_{t-1}^{(i)}$之间的递推关系，为了简便，SIS
 将关注点设在求概率$P(z_{1:t}|x_{1:t})$上，而不是$P(z_t:x_{1:t})$。于是：
@@ -846,10 +862,12 @@ $$
 这里$P(x_{1:t-1})$和$P(x_{1:t})$为已知，视为常数，由此从上式可以看出一个递推结构。
 
 同理分母作为提议分布，是自定的，其递推形式也是根据定义的分布来推导。由此权重递推问题得到简化。
+
 ### 重采样
 但是这样会带来一个退化问题，在经过几次迭代以后，很多粒子的权重都变得很小，只有少数的权重比较大，
 这样使得大量计算浪费在对估计后验概率分布几乎不起作用的粒子上，为此克服此问题最直接的方法是增加
 粒子，但这样会造成计算的增加。因此一般采用一下两种途径：
+
 - 选择合适的重要性概率密度函数(提议分布)
 - 在序贯重要性采样后，用重采样的方法。
 
@@ -895,6 +913,7 @@ $$
 F(\mathbf{x}_{k+1})<F(\mathbf{x}_k)
 $$
 分为两步：
+
 - 找到代表下降方向的单位向量$\mathbf{d}$。
 - 确定下降步长$\alpha$
 
@@ -904,7 +923,7 @@ F(\mathbf{x}+\alpha\mathbf{d})\approx F(\mathbf{x})+\alpha\mathbf{J}\mathbf{d}
 $$
 **只需要寻找下降方向，满足**：
 $$
-\alpha\mathbf{J}\mathbf{d}
+\alpha\mathbf{J}\mathbf{d}<0
 $$
 
 ### 最速下降法
@@ -963,8 +982,13 @@ $$
 这样损失函数就近似为一个二次函数，并且如果雅可比是满秩的，则$\mathbf{J}^{T}\mathbf{J}$正定，
 损失函数有最小值。
 
-另外，容易得到$F'(\mathbf{x})=(\mathbf{J}^\top\mathbf{f})^\top $，并且$F^{\prime\prime}
-(\mathbf{x})\approx\mathbf{J}^\top\mathbf{J}$
+另外，容易得到
+$$
+\begin{aligned}
+F^{'}(\mathbf{x})=(\mathbf{J}^{T}\mathbf{f})^{T} \\
+F^{''}(\mathbf{x})\approx\mathbf{J}^{T}\mathbf{J}
+\end{aligned}
+$$
 
 ### 高斯牛顿法
 高斯牛顿法就是求上面那个公式的一阶导为零的时候的解(从结果上看用信息矩阵来近似海森矩阵的牛顿法)。
