@@ -1,6 +1,6 @@
 ---
 title: MathJax Test
-date: 2020-09-12 16:02:07
+date: 2020-08-12 16:02:07
 tags: MathJax
 categories: MathJax
 mathjax: true

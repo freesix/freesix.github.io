@@ -1,6 +1,6 @@
 ---
 title: LIO-SAM阅读笔记
-data: 2023-09-24 21:08:07
+date: 2023-08-24 21:08:07
 tags: 论文阅读笔记
 categories: 论文阅读笔记
 mathjax: true

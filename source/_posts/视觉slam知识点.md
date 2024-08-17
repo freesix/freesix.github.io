@@ -1,6 +1,6 @@
 ---
 title: slam知识点
-data: 2023-12-24 20:09:07
+date: 2023-12-24 20:09:07
 tags: 知识点随笔
 categories: 知识点随笔
 mathjax: true
@@ -331,7 +331,8 @@ $$
 2\delta\mathrm{\dot{q}_t^{b_k}}=\delta\mathrm{q_t^{b_k}}\otimes\begin{bmatrix}\hat{\mathrm{w_t}}-\mathrm{b_{w_t}}-\mathrm{n_w}-\delta\mathrm{b_{w_t}}\\0\end{bmatrix}-\begin{bmatrix}(\hat{\mathrm{w_t}}-\mathrm{b_{w_t}})\\0\end{bmatrix}\otimes\delta\mathrm{q_t^{b_k}} \\
 \mathrm{2\delta \dot{q}_t^{b_k}~=\mathcal{R}(\begin{bmatrix}\hat{w}_t-b_{w_t}-n_w-\delta b_{w_t}\\0\end{bmatrix})\delta q_t^{b_k}~-\mathcal{L}(\begin{bmatrix}(\hat{w}_t-b_{w_t})\\0\end{bmatrix})\delta q_t^{b_k}} \\
 2\delta\mathrm{\dot{q}_t^{b_k}}=\begin{bmatrix}\delta\dot{\theta}_t^{b_k}\\0\end{bmatrix}=\begin{bmatrix}-[2\hat{\mathrm{w_t}}-2\mathrm{b_{w_t}}-\mathrm{n_w}-\delta\mathrm{b_{w_t}}]_\times&-\mathrm{n_w}-\delta\mathrm{b_{w_t}}\\(\mathrm{n_w}+\delta\mathrm{b_{w_t}})^\mathrm{T}&0\end{bmatrix}\begin{bmatrix}\frac12\delta\theta_\mathrm{t}^\mathrm{b_k}\\1\end{bmatrix} \\
-\delta\dot{\theta}_{\mathrm{t}}^{\mathbf{b}_{\mathrm{k}}}&=-[2\hat{\mathrm{w}}_{\mathrm{t}}-2\mathrm{b}_{\mathrm{w}_{\mathrm{t}}}-\mathrm{n}_{\mathrm{w}}-\delta\mathrm{b}_{\mathrm{w}_{\mathrm{t}}} ]_{\times}\frac{1}{2}\delta\theta_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}}-\mathrm{n}_{\mathrm{w}}-\delta\mathrm{b}_{\mathrm{w}_{\mathrm{t}}}\\&\approx-[\hat{\mathrm{w}}_{\mathrm{t}}-\mathrm{b}_{\mathrm{w}_{\mathrm{t}}}]_{\times}\delta\theta_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}}-\mathrm{n}_{\mathrm{w}}-\delta\mathrm{b}_{\mathrm{w}_{\mathrm{t}}}
+\delta\dot{\theta}_{\mathrm{t}}^{\mathbf{b}_{\mathrm{k}}}=-[2\hat{\mathrm{w}}_{\mathrm{t}}-2\mathrm{b}_{\mathrm{w}_{\mathrm{t}}}-\mathrm{n}_{\mathrm{w}}-\delta\mathrm{b}_{\mathrm{w}_{\mathrm{t}}} ]_{\times}\frac{1}{2}\delta\theta_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}}-\mathrm{n}_{\mathrm{w}}-\delta\mathrm{b}_{\mathrm{w}_{\mathrm{t}}}\\
+\approx-[\hat{\mathrm{w}}_{\mathrm{t}}-\mathrm{b}_{\mathrm{w}_{\mathrm{t}}}]_{\times}\delta\theta_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}}-\mathrm{n}_{\mathrm{w}}-\delta\mathrm{b}_{\mathrm{w}_{\mathrm{t}}}
 \end{gathered}
 $$
 前面已经推导得到了：$\delta \dot{\mathbf{z}}_{t}^{b_k}=\mathbf{F}_t\delta\mathbf{z}_t^{b_k}+\mathbf{G}_t\mathbf{n}_t$
@@ -407,7 +408,7 @@ $$
 $$
 \dot{\boldsymbol{R}}(t)=\boldsymbol{\phi}(t)^{\wedge}\boldsymbol{R}(t)=\left[\begin{array}{ccc}0&-\phi_3&\phi_2\\\phi_3&0&-\phi_1\\-\phi_2&\phi_1&0\end{array}\right]\boldsymbol{R}(t)
 $$
-**可以看到，每对旋转矩阵求一次导数，只需要左乘一个$\boldsymbol{\phi}(t)^{\wedge}$，但是
+**可以看到，每对旋转矩阵求一次导数，只需要左乘一个$\boldsymbol{\phi}(t)^{\wedge}$**，但是
 $\boldsymbol{\phi}(t)^{\wedge}$这是一个关于时间的函数，为了方便计算和讨论，先将
 $\boldsymbol{R}(t)$在0附近进行一阶泰勒展开，并且$t_0=0$，设定$\boldsymbol{R}(0)=\boldsymbol{I}$：
 $$
@@ -437,8 +438,9 @@ $$
 $$
 每个$\boldsymbol{\xi}$是一个六维向量，前三维$\boldsymbol{\rho}$为平移，后三维为旋转。
 
-**关于$SO(3),SE(3),\mathfrak{so}(3),\mathfrak{se}(3)$之间的指数对数对应关系，不详细赘
+**关于$SO(3),SE(3),\mathfrak{so}(3),\mathfrak{se}(3)$之间的指数对数对应关系**，不详细赘
 述，直接给出结论：
+
 ![李群李代数](视觉slam知识点/李群李代数转换.png)
 
 ## 卡尔曼滤波
@@ -679,8 +681,8 @@ $$
 (\tilde{\boldsymbol{\omega}}-\boldsymbol{b}_g))^\wedge \\ &=
 \operatorname{Exp}(\delta\boldsymbol{\theta})\left[(\tilde{\boldsymbol{\omega}}-\boldsymbol{b}_{gt}-\boldsymbol{\eta}_g)^\wedge-(\operatorname{Exp}(-\delta\boldsymbol{\theta})(\tilde{\boldsymbol{\omega}}-\boldsymbol{b}_g))^\wedge\right] \\ &\approx 
 \mathrm{Exp}(\delta\boldsymbol{\theta})\left[(\tilde{\boldsymbol{\omega}}-\boldsymbol{b}_{gt}-\boldsymbol{\eta}_{g})^{\wedge}-\left((\boldsymbol{I}-\delta\boldsymbol{\theta}^{\wedge})(\tilde{\boldsymbol{\omega}}-\boldsymbol{b}_{g})\right)^{\wedge}\right] \\ &=
-\mathrm{Exp}(\delta\boldsymbol{\theta})\left[\boldsymbol{b}_g-\boldsymbol{b}_{gt}-\boldsymbol{\eta}_g+\delta\boldsymbol{\theta}^\wedge\tilde{\boldsymbol{\omega}}-\delta\boldsymbol{\theta}^\wedge\boldsymbol{b}_g\right]^\wedge &=
-\operatorname{Exp}(\delta\boldsymbol{\theta})\left[(-\tilde{\boldsymbol{\omega}}+\boldsymbol{b}_{g})^{\wedge}\delta\boldsymbol{\theta}-\delta\boldsymbol{b}_{g}-\boldsymbol{\eta}_{g}\right]^{\wedge}
+\mathrm{Exp}(\delta\boldsymbol{\theta})\left[\boldsymbol{b}_g-\boldsymbol{b}_{gt}-\boldsymbol{\eta}_g+\delta\boldsymbol{\theta}^\wedge\tilde{\boldsymbol{\omega}}-\delta\boldsymbol{\theta}^\wedge\boldsymbol{b}_g\right]^\wedge \\ 
+&=\operatorname{Exp}(\delta\boldsymbol{\theta})\left[(-\tilde{\boldsymbol{\omega}}+\boldsymbol{b}_{g})^{\wedge}\delta\boldsymbol{\theta}-\delta\boldsymbol{b}_{g}-\boldsymbol{\eta}_{g}\right]^{\wedge}
 \end{aligned}
 $$
 约掉等式左边的系数，可得：
@@ -787,12 +789,14 @@ $\textcolor{red}{由此得到了在ESKF中进行IMU递推的过程，相当于�
 ## 粒子滤波
 引出：KF针对线性高斯系统，EKF用于求解非线性高斯系统。但是对于非线性非高斯系统是无法得到解析解
 的，只能通过采样的方式(蒙特卡洛法)来近似求得所有概率的值，由此引出粒子滤波算法。
+
 ### 蒙特卡洛采样法
 以抽样的方法去近似求得后验概率$P(z|x)$，大多时候关心的是这个后验概率的期望$\mathrm{E}_{z|x}[f(x)]$。
 $$
 \mathrm{E_{z|x}[f(z)]=\int f(z)P(z|x)dz\approx\frac1N\sum_{i=1}^Nf(z^i)}
 $$
 这里从$P(z|x)$中随机采样了$N$个样本，记作$z^{(1)}、\cdots、z^{(N)}$。
+
 ### 重要性采样基本原理
 当$P(z|x)$很复杂，或者维度很高时，很难在$P(z|x)$中采样，这时候就需要引用重要性采样(importance 
 sampling)来解决这个问题。在重要性采样中，引入一个简单的，易于采样的分布$q(z|x)$：
@@ -809,7 +813,7 @@ $$
 表示权重，写作$w^{i}$。
 
 **但是在计算过程中，在每次迭代过程中都需要计算$N$个权重，很困难(这是因为$P(z_{t}^{(i)}|x_{1:t}))$
-)不好求取，因此想到利用一个递推公式从前一时刻的权重得到当前时刻的权重。由此引出序列重要性采样。
+)不好求取，因此想到利用一个递推公式从前一时刻的权重得到当前时刻的权重。由此引出序列重要性采样。**
 ### 序列重要性采样
 序列重要性采样主要是为了找到$w_{t}^{(i)}$和$w_{t-1}^{(i)}$之间的递推关系，为了简便，SIS
 将关注点设在求概率$P(z_{1:t}|x_{1:t})$上，而不是$P(z_t:x_{1:t})$。于是：
@@ -1091,6 +1095,7 @@ $b、v$分别表示Bias和白噪声。
 过调节ALLAN方差滤波器带宽，对功率谱进行细致分隔，从而辨别出不同类型的随机过程误差。**
 
 ![ALLAN](视觉slam知识点/ALLAN曲线.png)
+
 对量化噪声、角度随机游走、零偏不稳定性、速率随机游走、速率斜坡这五个噪声建模有：
 $$
 \begin{aligned}
@@ -1105,7 +1110,9 @@ imu_utils工具中只求解了斜率为-1时候的白噪声和在斜率为零(�
 - 在采集样本中设定采样周期$\tau_0$，以$\tau=2\tau_0$大小滑动窗口在样本序列选取k个窗口片段，
 计算每个窗口内的平均值$\mu_k$
 - 以$\tau=3\tau_0,4\tau_0,\cdots,m\tau_0$重复上面操作，在每个$\tau$值都计算k个均值
+
 ![ALLAN方差计算](视觉slam知识点/ALLAN方差计算示意图.png)
+
 - 对同一大小窗口$\tau$下相邻两个窗口片段均值求差值，然后对所有差值求均方差
 $$
 \sigma^{2}(\tau)=\frac{1}{2K}\sum_{k=1}^{K}(\mu_{k+1,\tau}-\mu_{k,\tau})^{2}

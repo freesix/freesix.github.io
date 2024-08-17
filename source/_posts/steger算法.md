@@ -1,6 +1,6 @@
 ---
 title: steger算法笔记   
-data: 2023-12-01 19:00:07
+date: 2023-11-01 19:00:07
 tags: 学习笔记
 categories: 学习笔记
 mathjax: true
