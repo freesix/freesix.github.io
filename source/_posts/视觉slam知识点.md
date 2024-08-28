@@ -266,19 +266,26 @@ $\frac12\delta\boldsymbol{\theta}_t^{b_k}$​表示一个三维(四元数虚部)
 由此可以给出在$t$时刻误差项的线性化递推方程：
 $$
 \tag{1-7}
+\begin{aligned}
 \begin{bmatrix}\delta\dot{a}_\mathrm{t}^\mathrm{b_\mathrm{k}}\\\delta\dot{\rho}_\mathrm{t}^\mathrm{b_\mathrm{k}}\\\delta\dot{\theta}_\mathrm{t}^\mathrm{b_\mathrm{k}}\\\delta\dot{b}_\mathrm{a_\mathrm{t}}\\\delta\dot{b}_\mathrm{w_\mathrm{t}}\end{bmatrix}
 = \begin{bmatrix}0&\mathrm{I}&0&0&0\\0&0&-\mathrm{R_t^{b_k}~[\hat{a}_t~-b_{a_t}~]_\times}&-\mathrm{R_t^{b_k}}&0\\0&0&-[\hat{w}_t~-b_{w_t}~]_\times&0&-\mathrm{I}\\0&0&0&0&0\\0&0&0&0&0\end{bmatrix}
 \begin{bmatrix}\delta\alpha_{t}^\mathrm{b_k}\\\delta\beta_t^\mathrm{b_k}\\\delta\theta_t^\mathrm{b_k}\\\delta b_\mathrm{a_t}\\\delta b_\mathrm{w_t}\end{bmatrix}+
 \begin{bmatrix}0&0&0&0\\-\mathrm{R_t^{b_k}}&0&0&0\\0&-\mathrm{I}&0&0\\0&0&\mathrm{I}&0\\0&0&0&\mathrm{I}\end{bmatrix}
 \begin{bmatrix}\mathrm{n}_a \\ \mathrm{n}_{\omega} \\ \mathrm{n}_{b_a} \\ \mathrm{n}_{b_{\omega}}\end{bmatrix} \\ 
 =\mathbf{F}_t\delta\mathbf{z}_t^{b_k}+\mathbf{G}_t\mathbf{n}_t
+\end{aligned}
 $$
 其中$\mathbf{F}_t$是15x15，$\mathbf{G}_t$是15x12，$\delta\mathbf{z}_t^{b_k}$是15x1，$\mathbf{n}_t$是12x1。
 
 对于式(1-7)的推导，一个一个的推导一下：
+
 - 先对$\delta \dot{a}_t^{b_k}$，$\delta \dot{b}_{a_t}$，$\delta \dot{b}_{\omega_t}$这三个简单的推导一下，根据定义有：
 $$
-\delta\dot{a}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} = \hat{\dot{a}}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} - \dot{a}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} = \hat{\beta}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} - \beta_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} = \delta\beta_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}}\\\delta\dot{\mathrm{b}}_{\mathrm{a}_{\mathrm{t}}} = \dot{\mathrm{b}}_{\mathrm{a}_{\mathrm{t}}} - 0=\mathrm{n}_{\mathrm{b}_{\mathrm{a}}}\\\delta\dot{\mathrm{b}}_{\mathrm{w}_{\mathrm{t}}} =\dot{\mathrm{b}}_{\mathrm{w}_{\mathrm{t}}} -0=\mathrm{n}_{\mathrm{b}_{\mathrm{w}}}
+\begin{aligned}
+\delta\dot{a}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} = \hat{\dot{a}}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} - \dot{a}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} = \hat{\beta}_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} - \beta_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}} = \delta\beta_{\mathrm{t}}^{\mathrm{b}_{\mathrm{k}}}\\
+\delta\dot{\mathrm{b}}_{\mathrm{a}_{\mathrm{t}}} = \dot{\mathrm{b}}_{\mathrm{a}_{\mathrm{t}}} - 0=\mathrm{n}_{\mathrm{b}_{\mathrm{a}}}\\
+\delta\dot{\mathrm{b}}_{\mathrm{w}_{\mathrm{t}}} =\dot{\mathrm{b}}_{\mathrm{w}_{\mathrm{t}}} -0=\mathrm{n}_{\mathrm{b}_{\mathrm{w}}}
+\end{aligned}
 $$
 为了更好理解推导过程，将式(1-4)推导的预积分誊抄一下：
 $$
@@ -310,7 +317,7 @@ $$
 $$
 \delta\dot{\beta}_{\mathrm{t}}^{\mathrm{b_{k}}}=\hat{\dot{\beta}}_{\mathrm{t}}^{\mathrm{b_{k}}}-\dot{\beta}_{\mathrm{t}}^{\mathrm{b_{k}}}=-\mathrm{R}_{\mathrm{t}}^{\mathrm{b_{k}}}\left[\hat{a}_{\mathrm{t}}-\mathrm{b}_{\mathrm{a_{t}}}\right]_{\times}\delta\theta-\mathrm{R}_{\mathrm{t}}^{\mathrm{b_{k}}}\delta\mathrm{b}_{\mathrm{a_{t}}}-\mathrm{R}_{\mathrm{t}}^{\mathrm{b_{k}}}\mathrm{n}_{\mathrm{a}}
 $$
-- 接下来推导$|delta \dot{\theta}_t^{b_k}$，首先需要推导$\delta \dot{q}_t^{b_k}$
+- 接下来推导$\delta \dot{\theta}_t^{b_k}$，首先需要推导$\delta \dot{q}_t^{b_k}$
 $\dot{q}_t^{b_k}$理论值，即不考虑噪声$\mathrm{n}_w$和$\mathrm{n}_{b_w}$ ：
 $$
 \mathrm{\dot{q}_t^{b_k}=\frac12\Omega(\hat{w}_t-b_{w_t})q_t^{b_k}=\frac12q_t^{b_k}\otimes\begin{bmatrix}(\hat{w}_t-b_{w_t})\\0\end{bmatrix}}
@@ -575,6 +582,7 @@ $$
 z_k=h(x_k)+v_k
 $$
 可以看到扩展卡尔曼滤波的预测方程和观测方程不再是线性的，需要采用线性近似手段来处理(泰勒展开)
+
 ### 预测和更新
 不再推导了，直接给出结论
 $$
@@ -588,6 +596,7 @@ $$
 \end{aligned}
 $$
 **参数与超参数**
+
 - 参数：包括状态转移矩阵$\mathbf{F}_k$、测量矩阵$\mathbf{H}_k$、过程噪声协方差矩阵$Q_k$
 和测量噪声协方差矩阵$R_k$
 - 超参数：初始状态估计$\hat{x}_0$和初始协方差矩阵$P_0$
@@ -618,6 +627,7 @@ $$
 $$
 **这里在状态变量中包含了重力变量，就可以把IMU的初始位姿设为单位矩阵$\boldsymbol{R}=\boldsymbol{I}$，
 而把重力方向作为IMU当前姿态相比于水平面的一个度量**。
+
 ### ESKF的状态方程
 上面知道了真值状态量的状态方程，下面就推导误差状态量的状态方程，首先定义误差状态量为：
 $$
@@ -645,6 +655,7 @@ $$
 \end{aligned}
 $$
 而速度和旋转因为和$\delta \boldsymbol{R}$有关，所以需要利用李群李代数的知识单独推导：
+
 - **误差状态量的旋转项**
 对旋转式两侧求时间的导数有：
 $$
@@ -964,7 +975,10 @@ $$
 $$
 
 ### 非线性最小二乘基础(为后续高斯牛顿法和LM法铺垫)
-这里时残差函数$f(\mathbf{x})$为非线性函数，对其一阶泰勒展开：(前面是对损失函数进行泰勒展开)
+这里是残差函数$f(\mathbf{x})$为非线性函数，对其一阶泰勒展开：(前面是对损失函数进行泰勒展开，
+虽然牛顿法是对损失函数的二阶展开近似，高斯牛顿是对残差函数一阶展开，但是高斯牛顿仍然是二阶的方
+法，因为损失函数为残差函数的平方和，对残差的一阶平方后就为二阶。从下式可以看到对应上面二阶的
+海森矩阵由雅可比矩阵乘法代替了，计算更简便)
 $$
 f(\mathbf{x}+\Delta\mathbf{x})\approx\ell(\Delta\mathbf{x})\equiv
 \mathbf{f}(\mathbf{x})+\mathbf{J}\Delta\mathbf{x}
@@ -999,8 +1013,7 @@ $$
 \Longrightarrow &\left(\mathbf{J}^\top\mathbf{J}\right)\Delta\mathbf{x}_{\mathrm{gn}}=-\mathbf{J}^\top\mathbf{f}
 \end{aligned}
 $$
-**这个式子就是论文中经常看到的$\mathbf{H}\mathbf{x}_{\mathrm{gn}}=\mathbf{b}$，也被叫
-做normal equation**
+**这个式子就是论文中经常看到的$\mathbf{H}\mathbf{x}_{\mathrm{gn}}=\mathbf{b}$，也被叫做normal equation**
 
 ### Levenberg-Marquardt(LM)方法
 就是在求解过程中加入了阻尼因子，如下：
@@ -1010,6 +1023,35 @@ $$
 后面就是阻尼因子的选取和更新策略，如何选取和更新阻尼因子来控制最小二乘收敛。
 
 - 阻尼因子的作用
+定性分析来说就是增大阻尼减小步长，拒绝本次迭代。或者减小阻尼增大步长，加快收敛，减少迭代次数，
+LM更加接近高斯牛顿法。
+
+- 阻尼因子的更新策略
+是通过比例因子来决定的，比例因子计算公式为：
+$$
+\rho=\frac{F(\mathbf{x})-F\left(\mathbf{x}+\Delta\mathbf{x}_{\mathrm{lm}}\right)}{L(\mathbf{0})-L\left(\Delta\mathbf{x}_{\mathrm{lm}}\right)}
+$$
+其中：
+$$
+\begin{aligned}
+L(\mathbf{0})-L\left(\Delta\mathbf{x}_{\mathrm{lm}}\right)& =-\Delta\mathbf{x}_{\mathrm{lm}}^{\top}\mathbf{J}^{\top}\mathbf{f}-\frac{1}{2}\Delta\mathbf{x}_{\mathrm{lm}}^{\top}\mathbf{J}^{\top}\mathbf{J}\Delta\mathbf{x}_{\mathrm{lm}} \\
+&=\mathbf{b-J}^\top\mathbf{f}-\frac12\Delta\mathbf{x}_{\mathrm{lm}}^\top\left(-\mathbf{2b}+\left(\mathbf{J}^\top\mathbf{J}+\mu\mathbf{I}-\mu\mathbf{I}\right)\Delta\mathbf{x}_{\mathrm{lm}}\right) \\
+&=\frac12\Delta\mathbf{x}_{\mathrm{lm}}^\top\left(\mu\Delta\mathbf{x}_{\mathrm{lm}}+\mathbf{b}\right)
+\end{aligned}
+$$
+Marquardt提出了一种更新策略：
+$$
+\begin{aligned}\text{if }\rho&<0.25\\\mu&:=\mu*2\\\text{elseif }\rho&>0.75\\\mu&:=\mu/3\end{aligned}
+$$
+而g2o和ceres采用的是Nielsen(尼尔森)策略：
+$$
+\begin{aligned}
+& \text{if }\rho>0 &  \\
+&\mu:=\mu*\operatorname*{max}\left\{\frac{1}{3},1-(2\rho-1)^{3}\right\};\quad\nu:=2 \\
+&\text{else} \\
+&\mu:=\mu*\nu;\quad\nu:=2*\nu &&& \text{一} \\
+\end{aligned}
+$$
 $\textcolor{red}{后面再补充}$
 
 ## 滑动窗口
