@@ -455,7 +455,7 @@ $$
 \tag{预测和更新}
 \hat{X}_{k-1|k-1}\xrightarrow{Prediction}\hat{X}_{k|k-1}\xrightarrow{Correction}\hat{X}_{k|k}
 $$
-$\hat{X}_{k-1|k-1}$表示在时刻$k-1$的状态估计，$\hat{X}_{k|k-1}$表示已知$k-1$的状态估计，对$k$时刻的预测，$hat{X}_{k|k}$表示更新后$k$时刻的状态估计值。$\hat{P}_{k|k}$为后验估计误差协方差矩阵，度量估计值的精确程度。
+$\hat{X}_{k-1|k-1}$表示在时刻$k-1$的状态估计，$\hat{X}_{k|k-1}$表示已知$k-1$的状态估计，对$k$时刻的预测，$\hat{X}_{k|k}$表示更新后$k$时刻的状态估计值。$\hat{P}_{k|k}$为后验估计误差协方差矩阵，度量估计值的精确程度。
 
 - 预测$\hat{X}_{k-1|k-1}\xrightarrow{Prediction}\hat{X}_{k|k-1}$
 
@@ -826,7 +826,7 @@ $$
 然后最小二乘就是求解这样一个误差函数得到状态量$\mathbf{q}、\mathbf{p}、\mathbf{f}$的最优估计。
 
 ### 最小二乘问题的求解
-给定遮掩一个最小二乘问题求解的定义，找到一个$n$维的变量$\mathbf{x}^{*} \in \mathbb{R}^{n}$，使得下面这个损失函数$F(x)$取局部最小值。
+给定这样一个最小二乘问题求解的定义，找到一个$n$维的变量$\mathbf{x}^{*} \in \mathbb{R}^{n}$，使得下面这个损失函数$F(x)$取局部最小值。
 $$
 F(\mathbf{x})=\frac12\sum_{i=1}^m\left(f_i(\mathbf{x})\right)^2
 $$
